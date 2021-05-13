@@ -72,6 +72,7 @@
 		
 		
 		<!-- GEOJSON -->
+		<script type="text/javascript" src="scripts/NivelInicial.js"></script>
 		<script type="text/javascript" src="scripts/Edificios.js"></script>
 		<script type="text/javascript" src="scripts/Barrios.js"></script>
 		<script type="text/javascript" src="scripts/SitiosyConjuntosEdilicios.js"></script>
@@ -115,7 +116,7 @@
 		<script type="text/javascript" src="scripts/Bancos.js"></script>
 		<script type="text/javascript" src="scripts/Cajeros.js"></script>
 		<script type="text/javascript" src="scripts/Pagofacil.js"></script>
-	<script type="text/javascript" src="scripts/Bodegas.js"></script>
+	    <script type="text/javascript" src="scripts/Bodegas.js"></script>
 		<script type="text/javascript" src="scripts/Informador.js"></script>
 		<script type="text/javascript" src="scripts/PuestosBici.js"></script>
 	</head>
@@ -180,7 +181,8 @@
 				iconoVerde2 = new iconoComun({iconUrl: 'img/verde2_r2.png'});
 				iconositios = new iconoComun({iconUrl: 'img/sitios.png'});
 				iconoedi = new iconoComun({iconUrl: 'img/edificios.png'});
-				
+				iconoNivelini = new iconoComun({iconUrl: 'img/inicial_r2.png'});
+
 
 			
 			function crearIconoVerde (feature, latlng) {
@@ -246,6 +248,13 @@
 			  pointToLayer: crearIconoAmarillo
 			}
 			
+			function crearIconoNivelini (feature, latlng) {
+				return L.marker(latlng, { icon: iconoNivelini })
+			}
+			var asignarIconoNivelini	= {
+			  pointToLayer: crearIconoNivelini
+			
+			}
 			function crearIconoAntena (feature, latlng) {
 				return L.marker(latlng, { icon: iconoAntena })
 			}
@@ -426,7 +435,15 @@
 				if (feature.properties && feature.properties.UBICACION) { 
 						layer.bindPopup( "<strong>" + feature.properties.UBICACION + "</strong>"); 
 				} 
-			}
+		
+            }
+			function agregarPopupniveli(feature, layer) { 
+				if (feature.properties && feature.properties.Name) { 
+						layer.bindPopup( "<strong>" + feature.properties.Name + "</strong><br/>" + feature.properties.Domicilio + "</strong><br/>" + feature.properties.Distrito + "</strong><br/>" + feature.properties.Telefono + "</strong><br/>" + feature.properties.Email ); 
+             } 
+
+
+		    }
 			function agregarPopupjardinesmuni(feature, layer) { 
 				if (feature.properties && feature.properties.nombre) { 
 						layer.bindPopup( "<strong>" + feature.properties.nombre + "</strong>"); 
@@ -604,6 +621,7 @@
 			/* OVERLAYS Y GRUPOS */
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
 				centrosdesalud = L.geoJson(centrosdesalud, { pointToLayer: crearIconoCentrosalud, onEachFeature: agregarPopup }),
+				nivelinicial= L.geoJson( NivelInicial, { pointToLayer: crearIconoNivelini, onEachFeature: agregarPopupniveli}),
 				edificios= L.geoJson( Edificios, { pointToLayer: crearIconoedi, onEachFeature: agregarPopuppatrimoniales}),
 				SyCE= L.geoJson( SitiosyConjuntosEdilicios, { pointToLayer: crearIconositios, onEachFeature: agregarPopuppatrimoniales}),
 				TyC= L.geoJson( TramosyCarriles, { onEachFeature: agregarPopuppatrimoniales}).setStyle({color:"#C35918"}),
@@ -718,7 +736,7 @@
 				"Establecimientos Educativos":escuelas,
 				"Estaciones Meteorológicas":meteo,
 				"Instituciones de Seguridad":seguridad,
-				"Jardines Municipales":jardinesmuni,
+				
 				"Limite Urbano":limiurb,
 				"Pago Facil - Rapipago":cobro,
 				"Polideportivos":polideportivos,
@@ -729,7 +747,14 @@
 				"Zona Especial de Conservacion Natural":zonatu,
 				"Zonificación":zonificacion,
 				
-								
+				
+                },
+				"Educación": {
+				"Jardines Maternales Municipales":jardinesmuni,
+				"Jardines de Infantes":nivelinicial,
+				
+				
+				
 				},
 				"Infraestructura de Salud": {
 					"Centros de Salud":centrosdesalud,
