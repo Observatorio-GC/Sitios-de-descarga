@@ -72,6 +72,7 @@
 		
 		
 		<!-- GEOJSON -->
+		<script type="text/javascript" src="scripts/ColegiosPrimarios.js"></script>
 		<script type="text/javascript" src="scripts/NivelInicial.js"></script>
 		<script type="text/javascript" src="scripts/Edificios.js"></script>
 		<script type="text/javascript" src="scripts/Barrios.js"></script>
@@ -182,6 +183,7 @@
 				iconositios = new iconoComun({iconUrl: 'img/sitios.png'});
 				iconoedi = new iconoComun({iconUrl: 'img/edificios.png'});
 				iconoNivelini = new iconoComun({iconUrl: 'img/inicial_r2.png'});
+				iconoPrimarios = new iconoComun({iconUrl: 'img/primario_r2.png'});
 
 
 			
@@ -246,8 +248,15 @@
 			}
 			var asignarIconoAmarillo = {
 			  pointToLayer: crearIconoAmarillo
+			  
 			}
+			function crearIconoPrimarios (feature, latlng) {
+				return L.marker(latlng, { icon: iconoPrimarios })
+			}
+			var asignarIconoPrimarios	= {
+			  pointToLayer: crearIconoPrimarios
 			
+			}
 			function crearIconoNivelini (feature, latlng) {
 				return L.marker(latlng, { icon: iconoNivelini })
 			}
@@ -440,6 +449,13 @@
 			function agregarPopupniveli(feature, layer) { 
 				if (feature.properties && feature.properties.Name) { 
 						layer.bindPopup( "<strong>" + feature.properties.Name + "</strong><br/>" + feature.properties.Domicilio + "</strong><br/>" + feature.properties.Distrito + "</strong><br/>" + feature.properties.Telefono + "</strong><br/>" + feature.properties.Email ); 
+				}
+			
+			
+			} 
+ 			function agregarPopupprima(feature, layer) { 
+				if (feature.properties && feature.properties.Name) { 
+						layer.bindPopup( "<strong>" + feature.properties.Name + "</strong><br/>" + feature.properties.Domicilio + "</strong><br/>" + feature.properties.Distrito + "</strong><br/>" + feature.properties.Telefono + "</strong><br/>" + feature.properties.Email ); 
              } 
 
 
@@ -622,6 +638,7 @@
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
 				centrosdesalud = L.geoJson(centrosdesalud, { pointToLayer: crearIconoCentrosalud, onEachFeature: agregarPopup }),
 				nivelinicial= L.geoJson( NivelInicial, { pointToLayer: crearIconoNivelini, onEachFeature: agregarPopupniveli}),
+				colegiosprimarios= L.geoJson( ColegiosPrimarios, { pointToLayer: crearIconoPrimarios, onEachFeature: agregarPopupprima}),
 				edificios= L.geoJson( Edificios, { pointToLayer: crearIconoedi, onEachFeature: agregarPopuppatrimoniales}),
 				SyCE= L.geoJson( SitiosyConjuntosEdilicios, { pointToLayer: crearIconositios, onEachFeature: agregarPopuppatrimoniales}),
 				TyC= L.geoJson( TramosyCarriles, { onEachFeature: agregarPopuppatrimoniales}).setStyle({color:"#C35918"}),
@@ -752,7 +769,7 @@
 				"Educación": {
 				"Jardines Maternales Municipales":jardinesmuni,
 				"Jardines de Infantes":nivelinicial,
-				
+				"Colegios Primarios":colegiosprimarios,
 				
 				
 				},
