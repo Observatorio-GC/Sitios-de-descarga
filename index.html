@@ -72,9 +72,9 @@
 		
 		
 		<!-- GEOJSON -->
-		<script type="text/javascript" src="scripts/ColegiosPrimarios.js"></script>
-		<script type="text/javascript" src="scripts/NivelInicial.js"></script>
+		<script type="text/javascript" src="scripts/ZonaLey4886.js"></script>
 		<script type="text/javascript" src="scripts/Edificios.js"></script>
+		<script type="text/javascript" src="scripts/Persianas.js"></script>
 		<script type="text/javascript" src="scripts/Barrios.js"></script>
 		<script type="text/javascript" src="scripts/SitiosyConjuntosEdilicios.js"></script>
 		<script type="text/javascript" src="scripts/TramosyCarriles.js"></script>
@@ -117,7 +117,7 @@
 		<script type="text/javascript" src="scripts/Bancos.js"></script>
 		<script type="text/javascript" src="scripts/Cajeros.js"></script>
 		<script type="text/javascript" src="scripts/Pagofacil.js"></script>
-	    <script type="text/javascript" src="scripts/Bodegas.js"></script>
+	<script type="text/javascript" src="scripts/Bodegas.js"></script>
 		<script type="text/javascript" src="scripts/Informador.js"></script>
 		<script type="text/javascript" src="scripts/PuestosBici.js"></script>
 	</head>
@@ -182,9 +182,8 @@
 				iconoVerde2 = new iconoComun({iconUrl: 'img/verde2_r2.png'});
 				iconositios = new iconoComun({iconUrl: 'img/sitios.png'});
 				iconoedi = new iconoComun({iconUrl: 'img/edificios.png'});
-				iconoNivelini = new iconoComun({iconUrl: 'img/inicial_r2.png'});
-				iconoPrimarios = new iconoComun({iconUrl: 'img/primario_r2.png'});
-
+				iconoPersi = new iconoComun({iconUrl: 'img/persianas_r2.png'});
+				
 
 			
 			function crearIconoVerde (feature, latlng) {
@@ -248,22 +247,8 @@
 			}
 			var asignarIconoAmarillo = {
 			  pointToLayer: crearIconoAmarillo
-			  
 			}
-			function crearIconoPrimarios (feature, latlng) {
-				return L.marker(latlng, { icon: iconoPrimarios })
-			}
-			var asignarIconoPrimarios	= {
-			  pointToLayer: crearIconoPrimarios
 			
-			}
-			function crearIconoNivelini (feature, latlng) {
-				return L.marker(latlng, { icon: iconoNivelini })
-			}
-			var asignarIconoNivelini	= {
-			  pointToLayer: crearIconoNivelini
-			
-			}
 			function crearIconoAntena (feature, latlng) {
 				return L.marker(latlng, { icon: iconoAntena })
 			}
@@ -326,12 +311,14 @@
 			var asignarIconoHospitales = {
 			  pointToLayer: crearIconoHospitales
 			}
+			
 			function crearIconoPilas (feature, latlng) {
 				return L.marker(latlng, { icon: iconoPilas})
 			}
 			var asignarIconoPilas = {
 			  pointToLayer: crearIconoPilas
 			}
+			
 			function crearIconoSeguridad (feature, latlng) {
 				return L.marker(latlng, { icon: iconoSeguridad})
 			}
@@ -366,8 +353,7 @@
 			var asignarIconoedi = {
 			  pointToLayer: crearIconoedi
 			}
-									
-						
+								
 			function crearIconoUnivec(feature, latlng) {
 				return L.marker(latlng, { icon: iconoUnivec})
 			}
@@ -395,6 +381,15 @@
 			var asignarIconoSema_r2 = {
 			  pointToLayer: crearIconoSema_r2
 			}
+			
+			function crearIconoPersi(feature, latlng) {
+				return L.marker(latlng, { icon: iconoPersi})
+			}
+			var asignarIconoPersi = {
+			  pointToLayer: crearIconoPersi
+			}
+								
+			
 				
 			/* POPUPS */
 			
@@ -406,6 +401,11 @@
 			function agregarPopuppuntorecepcionpilas(feature, layer) { 
 				if (feature.properties && feature.properties.Name) { 
 						layer.bindPopup( "<strong>" + feature.properties.Name + "</strong>"); 
+				} 
+            }
+			function agregarPopuppersianas(feature, layer) { 
+				if (feature.properties && feature.properties.Nombre) { 
+						layer.bindPopup( "<strong>" + feature.properties.Nombre + "</strong><br><img src='img/persianas/"+ feature.properties.Fotos + "' height='160px' width='200px' style='display:block; margin: auto; margin-top:7px;' />");
 				} 
             }
 			function agregarPopupesculturas(feature, layer) { 
@@ -422,8 +422,6 @@
 				if (feature.properties && feature.properties.Nombre) { 
 						layer.bindPopup( "<strong>" + feature.properties.Nombre + "</strong><br/>" + feature.properties.UBICACION + "</strong><br/>" +  feature.properties.AÑO + "</strong><br/>" + feature.properties.DISTRITO + "</strong><br><img src='img/Muvi/"+ feature.properties.Fotos + "' height='160px' width='200px' style='display:block; margin: auto; margin-top:7px;' />"); 
 				} 
-			
-			
 			}		
 			function agregarPopupespaciosverdes(feature, layer) { 
 				if (feature.properties && feature.properties.NOMBRE) { 
@@ -440,26 +438,16 @@
 						layer.bindPopup( "<strong>" + feature.properties.Nombre + "</strong>"); 
 				} 
 			}
+			function agregarPopupfarmaciasgc(feature, layer) { 
+				if (feature.properties && feature.properties.Nombre) { 
+						layer.bindPopup( "<strong>" + feature.properties.Nombre + "</strong><br/>" + feature.properties.Direccion + "</strong><br/>" + feature.properties.Telefono + "</strong><br/>" + feature.properties.Distrito); 
+				} 	
+			}
 			function agregarPopupres(feature, layer) { 
 				if (feature.properties && feature.properties.UBICACION) { 
 						layer.bindPopup( "<strong>" + feature.properties.UBICACION + "</strong>"); 
 				} 
-		
-            }
-			function agregarPopupniveli(feature, layer) { 
-				if (feature.properties && feature.properties.Name) { 
-						layer.bindPopup( "<strong>" + feature.properties.Name + "</strong><br/>" + feature.properties.Domicilio + "</strong><br/>" + feature.properties.Distrito + "</strong><br/>" + feature.properties.Telefono + "</strong><br/>" + feature.properties.Email ); 
-				}
-			
-			
-			} 
- 			function agregarPopupprima(feature, layer) { 
-				if (feature.properties && feature.properties.Name) { 
-						layer.bindPopup( "<strong>" + feature.properties.Name + "</strong><br/>" + feature.properties.Domicilio + "</strong><br/>" + feature.properties.Distrito + "</strong><br/>" + feature.properties.Telefono + "</strong><br/>" + feature.properties.Email ); 
-             } 
-
-
-		    }
+			}
 			function agregarPopupjardinesmuni(feature, layer) { 
 				if (feature.properties && feature.properties.nombre) { 
 						layer.bindPopup( "<strong>" + feature.properties.nombre + "</strong>"); 
@@ -504,7 +492,12 @@
 				if (feature.properties && feature.properties.Nombre_1) { 
 					layer.bindPopup( "<strong>" + feature.properties.Nombre_1 + "</strong><br/>" + feature.properties.Area_km2);
 				} 
-			}			
+			}
+function agregarPopupzonaLey4886(feature, layer) { 
+				if (feature.properties && feature.properties.REFERENCIA) { 
+					layer.bindPopup( "<strong>" + feature.properties.REFERENCIA + "</strong><br/>" + feature.properties.NOMBRE);
+				} 
+			}					
 			function agregarPopupcuencas(feature, layer) { 
 				if (feature.properties && feature.properties.Nombre_1) { 
 						layer.bindPopup( "<strong>" + feature.properties.Nombre_1 + "</strong><br/>" + feature.properties.Superficie);
@@ -589,6 +582,30 @@
 					});
 				});
 			}	
+			function estiloley() {
+				zonaley.eachLayer(function(featureInstanceLayer) {
+					var id_feature = featureInstanceLayer.feature.properties['id'];
+					if (id_feature == 1) {
+						color_actual = '#2f6e9e';
+					} else if (id_feature ==9) {
+						color_actual = '#987db7';	
+					} else if (id_feature == 10) {
+						color_actual = '#987db7';	
+					} else if (id_feature == 11) {
+						color_actual = '#987db7';
+					} else if (id_feature == 12) {
+						color_actual = '#d3aeff';
+					} else if (id_feature == 13) {
+						color_actual = '#b31417';
+					}
+					featureInstanceLayer.setStyle({
+						color: color_actual,fillOpacity: 0.75
+					});
+				});
+			}
+			
+			
+			
 			function estilocloacas() {
 				sistcloacal.eachLayer(function(featureInstanceLayer) {
 					var id_feature = featureInstanceLayer.feature.properties['id'];
@@ -637,14 +654,13 @@
 			/* OVERLAYS Y GRUPOS */
 			var plazagc = L.marker([-32.92524, -68.84439]).bindPopup('Plaza GC.').openPopup(),
 				centrosdesalud = L.geoJson(centrosdesalud, { pointToLayer: crearIconoCentrosalud, onEachFeature: agregarPopup }),
-				nivelinicial= L.geoJson( NivelInicial, { pointToLayer: crearIconoNivelini, onEachFeature: agregarPopupniveli}),
-				colegiosprimarios= L.geoJson( ColegiosPrimarios, { pointToLayer: crearIconoPrimarios, onEachFeature: agregarPopupprima}),
 				edificios= L.geoJson( Edificios, { pointToLayer: crearIconoedi, onEachFeature: agregarPopuppatrimoniales}),
 				SyCE= L.geoJson( SitiosyConjuntosEdilicios, { pointToLayer: crearIconositios, onEachFeature: agregarPopuppatrimoniales}),
 				TyC= L.geoJson( TramosyCarriles, { onEachFeature: agregarPopuppatrimoniales}).setStyle({color:"#C35918"}),
 				barrios= L.geoJson( Barrios, {onEachFeature: agregarPopuppatrimoniales}).setStyle({color:"#E86211",fillOpacity: 0.75})
 				escultura= L.geoJson(Esculturas , { pointToLayer: crearIconoEscul, onEachFeature: agregarPopupesculturas}),
 				godoycruz = L.geoJson(godoycruz),
+				persianas= L.geoJson(Persianas, { pointToLayer: crearIconoPersi, onEachFeature: agregarPopuppersianas}),
 				cicloviasproy = L.geoJson(CicloviasProyectadas,{ onEachFeature: agregarPopupciclovias}).setStyle({color:"yellow"}),
 				cicloviasexist =L.geoJson(CicloviasExistentes,{ onEachFeature: agregarPopupciclovias}).setStyle({color:"red"}),
 				lineasd=L.geoJson(LineasD,{ onEachFeature: agregarPopuplineas}).setStyle({color:"orange"}),
@@ -653,7 +669,7 @@
 				clinicaspriv = L. geoJson(ClinicasPrivadas,{ pointToLayer: crearIconoClinicaprivada, onEachFeature: agregarPopupjardinesmuni }),
 				hospital = L.geoJson(Hospital, { pointToLayer: crearIconoHospitales, onEachFeature: agregarPopup }),
 				escuelas = L.geoJson(Escuelas, { pointToLayer: crearIconoEstabeducat, onEachFeature: agregarPopup }),
-				farmacias = L.geoJson(Farmacias, { pointToLayer: crearIconoFarmacias, onEachFeature: agregarPopupfarmacias }),
+				farmacias = L.geoJson(Farmacias, { pointToLayer: crearIconoFarmacias, onEachFeature: agregarPopupfarmaciasgc }),
 				polideportivos = L.geoJson(Polideportivos,  { pointToLayer: crearIconoPoli, onEachFeature: agregarPopup }),
 				jardinesmuni = L.geoJson(JardinesMunicipales,{ pointToLayer: crearIconoJardmatern, onEachFeature: agregarPopupjardinesmuni }),
 				seguridad =L.geoJson(Seguridad,{ pointToLayer: crearIconoSeguridad, onEachFeature: agregarPopup }),
@@ -661,6 +677,7 @@
 				barriospopulares=L.geoJson(BarriosPopulares, {onEachFeature: agregarPopupbarrios}).setStyle({color:"#e31a1c",fillOpacity: 0.75})
 				reservorios=L.geoJson(Reservorios,{onEachFeature: agregarPopupres}).setStyle({color:"#729b6f",fillOpacity: 0.75}),
 				zonificacion=  L.geoJson(Zonificacion,{ onEachFeature: agregarPopupzoni }),
+	zonaley=  L.geoJson(ZonaLey4886,{ onEachFeature: agregarPopupzonaLey4886 }),			
 				BarriosConsolidados=  L.geoJson(BarriosConsolidados,{ onEachFeature: agregarPopupBarriosConsolidados }),
 				redesagua= L.geoJson(RedesdeAguas,{ onEachFeature: agregarPopupredes}),
 				espverdes= L.geoJson(EspaciosVerdes, { onEachFeature: agregarPopupespaciosverdes }).setStyle({color:"#4daf4a",fillOpacity: 0.75}),
@@ -704,6 +721,7 @@
 			estilored();
 			estilocloacas();
 			estilocuencas();
+			estiloley()
           
 			/* CREACIÓN DEL LAYERS CONTROL */
 			var baseMaps = {
@@ -750,10 +768,10 @@
 				"Dependencias Municipales":depen,
 				"Distritos Departamentales":Depa,
 				"Espacios Verdes":espverdes,
-				
+				"Establecimientos Educativos":escuelas,
 				"Estaciones Meteorológicas":meteo,
 				"Instituciones de Seguridad":seguridad,
-				
+				"Jardines Municipales":jardinesmuni,
 				"Limite Urbano":limiurb,
 				"Pago Facil - Rapipago":cobro,
 				"Polideportivos":polideportivos,
@@ -763,16 +781,9 @@
 				"Zona con Características Especiales de Urbanización":zonaurb,
 				"Zona Especial de Conservacion Natural":zonatu,
 				"Zonificación":zonificacion,
+				"ZonaLey4886" :zonaley,
 				
-				
-                },
-				"Educación": {
-				"Jardines Maternales Municipales":jardinesmuni,
-				"Jardines de Infantes":nivelinicial,
-				"Colegios Primarios":colegiosprimarios,
-				"Establecimientos Educativos":escuelas,
-				
-				
+								
 				},
 				"Infraestructura de Salud": {
 					"Centros de Salud":centrosdesalud,
@@ -803,6 +814,7 @@
                 },
 				"Patrimonio": {
 				"Esculturas":escultura,
+				"Persianas Comerciales": persianas,
                 
 								
 				},
